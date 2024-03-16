@@ -91,7 +91,7 @@ export default {
         {
           id: 2,
           q: 'When will it release?',
-          a: 'Unfortunatley, we do not have a release date.'
+          a: 'Unfortunately, we do not have a release date.'
         },
         {
           id: 3,
