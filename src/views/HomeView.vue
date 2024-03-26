@@ -84,6 +84,12 @@ export default {
           position: "Helper",
           avatar: "https://cdn.discordapp.com/avatars/828916510646468630/09b902b34376ee668442e1e7f15babe1?size=1024"
         },
+        {
+          id: 7,
+          name: "PrinceLegacy",
+          position: "Helper",
+          avatar: "https://cdn.discordapp.com/avatars/1039887622216089682/0f3cc4378c11d877a43ffd9e3e1fde74?size=1024"
+        },
       ],
       faq: [
         {
