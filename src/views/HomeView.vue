@@ -70,7 +70,7 @@ export default {
           id: 4,
           name: "MomadXD",
           position: "Junior Developer",
-          avatar: "https://cdn.discordapp.com/avatars/352425244985917442/faf0f78c17d6124746006ab8cc6dc767?size=1024"
+          avatar: "https://cdn.discordapp.com/avatars/352425244985917442/a688e4b2870f67bce810665006b96a4e.png?size=2048"
         },
         {
           id: 5,
