@@ -75,7 +75,7 @@ export default {
         {
           id: 5,
           name: "Yello",
-          position: "Junior Developer",
+          position: "Mod",
           avatar: "https://cdn.discordapp.com/avatars/916642284810936380/8a0974eda5abd6a64fdb9fc8e360a6fc?size=1024"
         },
         {
