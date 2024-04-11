@@ -62,30 +62,24 @@ export default {
         },
         {
           id: 3,
-          name: "thijsvuur",
-          position: "Network Manager",
-          avatar: "https://cdn.discordapp.com/avatars/968480452551786516/67494b79e8cb48e954ae9c28076ae115?size=1024"
-        },
-        {
-          id: 4,
           name: "MomadXD",
           position: "Junior Developer",
           avatar: "https://cdn.discordapp.com/avatars/352425244985917442/a688e4b2870f67bce810665006b96a4e.png?size=2048"
         },
         {
-          id: 5,
+          id: 4,
           name: "Yello",
           position: "Mod",
           avatar: "https://cdn.discordapp.com/avatars/916642284810936380/8a0974eda5abd6a64fdb9fc8e360a6fc?size=1024"
         },
         {
-          id: 6,
+          id: 5,
           name: "LZ",
           position: "Helper",
           avatar: "https://cdn.discordapp.com/avatars/828916510646468630/09b902b34376ee668442e1e7f15babe1?size=1024"
         },
         {
-          id: 7,
+          id: 6,
           name: "PrinceLegacy",
           position: "Helper",
           avatar: "https://cdn.discordapp.com/avatars/1039887622216089682/0f3cc4378c11d877a43ffd9e3e1fde74?size=1024"
