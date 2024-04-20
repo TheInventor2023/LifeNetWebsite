@@ -43,7 +43,7 @@
       </div>
     </div>
   </div>
-  <banner :body="banner.body" :title="banner.title" :type="banner.style"/>
+  <banner v-if="banner.show" :body="banner.body" :title="banner.title" :type="banner.style"/>
 </template>
 <script>
 import {adminAccess, getCookie} from "@/Utils.js";
