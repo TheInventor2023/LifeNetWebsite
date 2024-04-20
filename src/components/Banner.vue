@@ -2,7 +2,7 @@
   <div v-if="show" :class="this.pos_style" class="w-[100%] text-white">
     <div :class="this.bg_style" class="rounded-md m-3 p-3 drop-shadow-2xl">
       <button class="top-0 absolute right-0 mt-4 mr-4 text-black"
-              @click="show = false">
+              @click="hide">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
         </svg>
@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import {getCookie} from "@/Utils.js";
+
 export default {
   name: "Banner",
   props: {
@@ -41,7 +43,26 @@ export default {
       pos_style: 'absolute',
     }
   },
+  methods: {
+    toJson() {
+      return {
+        body: this.body,
+        title: this.title,
+        type: this.type
+      }
+    },
+    hide() {
+      this.show = false
+      if(getCookie('cytonic_accepted_cookies')) { // only do it if the user has accepted to cookies
+        const expirationDate = new Date(Date.now() + 30 * 60 * 60 * 1000);
+        const cookieValue = `${encodeURIComponent(JSON.stringify(this.toJson()))}; expires=${expirationDate.toUTCString()}; path=/`;
+        document.cookie = `banner=${cookieValue}; SameSite=Strict; Secure`;
+      }
+    },
+  },
   updated() {
+    if (getCookie("banner") === JSON.stringify(this.toJson())) this.show = false;
+
     if(this.type === 'INFO') {
       this.bg_style = "bg-blue-500";
     } else if(this.type === 'WARNING') {
