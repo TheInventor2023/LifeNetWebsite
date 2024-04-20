@@ -14,7 +14,4 @@ body {
   background: black;
 }
 
-.router-link-active {
-  text-decoration-color: white;
-}
 </style>

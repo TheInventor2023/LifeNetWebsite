@@ -125,7 +125,7 @@ export default {
       }
       this.banner = value.data.data.banner;
       this.banner.show = true;
-    }).catch(reason => {});
+    }).catch(() => {});
   }
 }
 </script>
