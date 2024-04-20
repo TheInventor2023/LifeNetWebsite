@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-black h-16"></div>
+  <div class="bg-black h-[6vh]"></div>
   <div class="fixed flex flex-row bottom-0 p-5 justify-between w-full bg-black bg-opacity-50 backdrop-blur-sm">
 
     <div id="text" class="flex">
