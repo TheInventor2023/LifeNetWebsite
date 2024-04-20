@@ -133,7 +133,7 @@ export default {
           this.$router.push('/goodbye');
         }
       })
-          .catch((error) => {
+          .catch(() => {
             useToast().error('An error occurred whilst deleting you account! Check the console for more details.', {
               position: 'top-right',
               timeout: 5000,
@@ -168,7 +168,7 @@ export default {
         data: data,
         headers: {"Content-Type": "multipart/form-data"},
       })
-          .then(response => {
+          .then(() => {
             useToast().success('Your avatar was successfully changed.', {
               position: 'top-right',
               timeout: 1000,
@@ -184,7 +184,7 @@ export default {
               rtl: false,
             });
           })
-          .catch(reason => {
+          .catch(() => {
             useToast().error('An error occurred whilst changing your avatar! Check the console for more details.', {
               position: 'top-right',
               timeout: 5000,
@@ -225,7 +225,7 @@ export default {
           });
         }
       })
-          .catch((error) => {
+          .catch(() => {
             useToast().error('An error occurred whilst changing your username! Check the console for more details.', {
               position: 'top-right',
               timeout: 5000,
@@ -396,7 +396,4 @@ export default {
   cursor: pointer;
 }
 
-.btn-grey {
-  background-color: #848f9e;
-}
 </style>
