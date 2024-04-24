@@ -96,7 +96,6 @@ export default {
               this.user =  response.data.data.user;
             })
             .catch((error) => {
-              console.log(error)
               if (!error || !error.response) return;
               if (error.code === 'ERR_NETWORK') {
                 useToast().error('Failed to restore your user session. Please log in again.', {
