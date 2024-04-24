@@ -1,6 +1,7 @@
 <template>
   <div class="bg-black h-[6vh]"></div>
-  <div class="h-[6vh] fixed backdrop-blur-sm bg-black bg-opacity-50 flex-row flex top-0 w-full justify-between z-50">
+  <div
+      class="max-sm:hidden h-[6vh] fixed backdrop-blur-sm bg-black bg-opacity-50 flex-row flex top-0 w-full justify-between z-50">
     <div class="flex">
       <div class="m-1 mx-6">
         <img alt="Cytonic's Logo" class="h-[5.5vh] mb-2" src="@/assets/icon.svg">
@@ -18,6 +19,7 @@
         <router-link to="/contact"> Contact</router-link>
       </div>
 
+      <!-- Not implemented yet
       <div v-if="this.$store.state.user" class="mx-6 self-center text-gray-300 hover:text-white transition">
         <router-link to="/my-account"> My Account</router-link>
       </div>
@@ -25,24 +27,64 @@
         <router-link to="/auth/login">Log In</router-link>
       </div>
 
-      <div v-if="this.$store.state.user && adminAccess().includes(this.$store.state.user.role)" class=" mx-6 self-center text-gray-300 hover:text-white transition">
+      <div v-if="this.$store.state.user && adminAccess().includes(this.$store.state.user.role)"
+           class=" mx-6 self-center text-gray-300 hover:text-white transition">
         <router-link to="/admin/home">Admin Dashboard</router-link>
       </div>
+      -->
 
     </div>
-    <div class="flex">
-      <div class="self-center text-gray-300 hover:text-white transition">
-        <a href="https://discord.gg/Jq7FwX6hqW" target="_blank">
-          <font-awesome-icon class="text-white" icon="fa-brands fa-discord" size="xl"/>
-        </a>
-      </div>
-      <div class="mx-7 self-center text-gray-300 hover:text-white transition">
-        <a href="https://github.com/cytonicmc" target="_blank">
-          <font-awesome-icon class="text-white" icon="fa-brands fa-github" size="xl"/>
-        </a>
-      </div>
+  </div>
+  <div
+      class="sm:hidden h-[6vh] fixed backdrop-blur-sm bg-black bg-opacity-50 flex-row flex top-0 w-full justify-between z-50">
+    <div class="m-1 mx-6">
+      <img alt="Cytonic's Logo" class="h-[5.5vh] mb-2" src="@/assets/icon.svg">
+    </div>
+    <!-- Open / close the navbar-->
+    <div v-if="mobile.show" class="self-center text-gray-300 hover:text-white transition absolute m-7 mt-9 right-0">
+      <button @click="mobile.show = false">
+        <img alt="Close" src="@/assets/close.svg">
+      </button>
+    </div>
+    <div v-if="!mobile.show" class="self-center text-gray-300 hover:text-white transition m-7 mt-9">
+      <button @click="mobile.show = true">
+        <img alt="Open Menu" src="@/assets/menu.svg">
+      </button>
     </div>
   </div>
+  <transition name="navbar" @enter="enter" @leave="leave" @before-enter="beforeEnter">
+
+    <!-- The actual nav links-->
+    <div v-if="mobile.show" class="flex flex-col text-left bg-black fixed w-full p-2 top-[5vh] py-4 z-40">
+      <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <router-link to="/home" @click="mobile.show = false"> Home</router-link>
+      </div>
+
+      <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <a href="https://store.cytonic.net" @click="mobile.show = false"> Store </a>
+      </div>
+
+      <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <router-link to="/contact" @click="mobile.show = false"> Contact</router-link>
+      </div>
+
+      <!-- Backend isn't deployed yet
+      <div v-if="this.$store.state.user" class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <router-link to="/my-account" @click="mobile.show = false"> My Account</router-link>
+      </div>
+      <div v-else class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <router-link to="/auth/login" @click="mobile.show = false">Log In</router-link>
+      </div>
+
+
+      <div v-if="this.$store.state.user && adminAccess().includes(this.$store.state.user.role)"
+           class=" mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <router-link to="/admin/home"  @click="mobile.show = false">Admin Dashboard</router-link>
+      </div>
+      -->
+    </div>
+
+  </transition>
   <banner v-if="banner.show" :body="banner.body" :title="banner.title" :type="banner.style"/>
 </template>
 <script>
@@ -56,10 +98,42 @@ export default {
   methods: {
     adminAccess() {
       return adminAccess
+    },
+
+    // Nav bar on mobile
+    beforeEnter(el) {
+      el.style.transform = 'translateY(-36px)';
+    },
+    enter(el) {
+      let top = -36;
+      const flyInterval = setInterval(() => {
+        top += .1125;
+        if (top * top < 0) el.style.transform = `translateY(${top * top}px)`;
+        else el.style.transform = `translateY(0px)`;
+        if (top * top >= 0) {
+          clearInterval(flyInterval);
+          // done();
+        }
+      }, 20);
+    },
+    leave(el, done) {
+      let top = 0;
+
+      const interval = setInterval(() => {
+        top -= 1; // Adjust increment for smoother movement
+        el.style.transform = `translateY(${top * -top}px)`;
+        if (top <= -72) {
+          clearInterval(interval);
+          done();
+        }
+      }, 20); // Adjust interval for smoother movement
     }
   },
   data() {
     return {
+      mobile: {
+        show: false,
+      },
       user: false,
       banner: {
         show: false,
@@ -71,8 +145,8 @@ export default {
   },
   mounted() {
     // authenticated
-    if(getCookie('authToken') !== '') {
-      if(this.$store.state.user) {
+    if (getCookie('authToken') !== '') {
+      if (this.$store.state.user) {
         this.user = this.$store.state.user;
       } else {
         axios.get('login', {})
@@ -93,7 +167,7 @@ export default {
                 icon: true,
                 rtl: false,
               });
-              this.user =  response.data.data.user;
+              this.user = response.data.data.user;
             })
             .catch((error) => {
               if (!error || !error.response) return;
@@ -119,12 +193,13 @@ export default {
 
     // fetch banners
     axios.get('banners').then(value => {
-      if(value.data.message === 'No active banner') {
+      if (value.data.message === 'No active banner') {
         return;
       }
       this.banner = value.data.data.banner;
       this.banner.show = true;
-    }).catch(() => {});
-  }
+    }).catch(() => {
+    });
+  },
 }
 </script>
