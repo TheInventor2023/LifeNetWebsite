@@ -148,7 +148,6 @@ export default {
         },
       })
           .then((response) => {
-            console.log(response);
             this.$store.commit('set', response);
             useToast().success('Your registration was successful! Please check your email for further instructions.', {
               position: 'top-right',
