@@ -33,7 +33,7 @@
       <div class="max-w-2xl">
         <div class="grid grid-flow-row auto-cols-auto gap-4">
           <!-- Log Out Panel -->
-          <div class="p-4 bg-gray-900 rounded-lg shadow-xl min-w-[20vw] max-w-[40vw]">
+          <div class="p-4 bg-gray-900 rounded-lg shadow-xl sm:min-w-[20vw] sm:max-w-[40vw] max-w-[80vw]">
             <h2 class="text-xl font-semibold mb-4">Log Out</h2>
             <p>Terminates your current session. You will have to log in again if you wish to continue accessing certain
               portions of the website.</p>
@@ -41,7 +41,7 @@
           </div>
 
           <!-- Change Avatar Panel -->
-          <div class="p-4 bg-gray-900 rounded-lg shadow-xl min-w-[20vw] max-w-[40vw]">
+          <div class="p-4 bg-gray-900 rounded-lg shadow-xl sm:min-w-[20vw] sm:max-w-[40vw] max-w-[80vw]">
             <h2 class="text-xl font-semibold mb-4">Change Avatar</h2>
             <form @submit.prevent="changeAvatar">
               <label class="block mb-2" for="avatar">Upload a New Avatar</label>
@@ -52,7 +52,7 @@
             </form>
           </div>
           <!-- Change Username Panel -->
-          <div class="p-4 bg-gray-900 rounded-lg shadow-xl min-w-[20vw] max-w-[40vw]">
+          <div class="p-4 bg-gray-900 rounded-lg shadow-xl sm:min-w-[20vw] sm:max-w-[40vw] max-w-[80vw]">
             <h2 class="text-xl font-semibold mb-4">Change Username</h2>
             <form @submit.prevent="changeUsername">
               <label class="block mb-2">New Username</label>
@@ -63,7 +63,7 @@
             </form>
           </div>
           <!-- Change Password Panel -->
-          <div class="p-4 bg-gray-900 rounded-lg shadow-xl min-w-[20vw] max-w-[40vw]">
+          <div class="p-4 bg-gray-900 rounded-lg shadow-xl sm:min-w-[20vw] sm:max-w-[40vw] max-w-[80vw]">
             <h2 class="text-xl font-semibold mb-4">Change Password</h2>
             <form @submit.prevent="changePassword">
               <label class="block mb-2">Current Password</label>
@@ -83,7 +83,7 @@
             </form>
           </div>
           <!-- Delete Account Panel -->
-          <div class="p-4 bg-gray-900 rounded-lg shadow-xl min-w-[20vw] max-w-[40vw]">
+          <div class="p-4 bg-gray-900 rounded-lg shadow-xl sm:min-w-[20vw] sm:max-w-[40vw] max-w-[80vw]">
             <h2 class="text-xl font-semibold mb-4">Delete Account</h2>
             <p class="">Permanently deletes your account and any data associated with it.</p>
             <button class="btn btn-red mt-2" @click="openPopup">Delete My Account</button>
