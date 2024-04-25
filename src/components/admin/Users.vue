@@ -2,13 +2,9 @@
   <div v-if="this.$store.state.user && adminAccess().includes(this.$store.state.user.role)" class="text-white">
     <div class="bg-gray-800 p-2 rounded items-center h-[9vh]">
       <div class="flex">
-        <h1 class="text-3xl font-title">Website User List</h1>
+        <h1 class="text-3xl font-title max-sm:ml-10">Website User List</h1>
         <button class="mx-4" @click="refreshData">
-          <svg id="Capa_1" fill="#fff" height="20px" version="1.1" viewBox="0 0 489.533 489.533" width="20px"
-               xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-            <g id="SVGRepo_iconCarrier"> <g> <path
-                d="M268.175,488.161c98.2-11,176.9-89.5,188.1-187.7c14.7-128.4-85.1-237.7-210.2-239.1v-57.6c0-3.2-4-4.9-6.7-2.9 l-118.6,87.1c-2,1.5-2,4.4,0,5.9l118.6,87.1c2.7,2,6.7,0.2,6.7-2.9v-57.5c87.9,1.4,158.3,76.2,152.3,165.6 c-5.1,76.9-67.8,139.3-144.7,144.2c-81.5,5.2-150.8-53-163.2-130c-2.3-14.3-14.8-24.7-29.2-24.7c-17.9,0-31.9,15.9-29.1,33.6 C49.575,418.961,150.875,501.261,268.175,488.161z"></path> </g> </g></svg>
+          <img src="@/assets/refresh.svg" alt="Refresh">
         </button>
       </div>
       <div class="flex-row flex">
@@ -180,14 +176,7 @@
 
       </div>
       <div v-else class="flex justify-center mt-10">
-        <svg height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="50" cy="50" fill="none" r="40" stroke="#000" stroke-width="4"/>
-          <circle cx="50" cy="50" fill="none" r="40" stroke="#f5c842" stroke-dasharray="180,200" stroke-width="4">
-            <animateTransform attributeName="transform" attributeType="XML" dur=".75s" from="0 50 50"
-                              repeatCount="indefinite"
-                              to="360 50 50" type="rotate"/>
-          </circle>
-        </svg>
+        <img src="@/assets/loading.svg" alt="Loading ...">
       </div>
     </div>
   </div>
