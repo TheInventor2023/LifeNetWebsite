@@ -149,7 +149,7 @@ export default {
       })
           .then((response) => {
             this.$store.commit('set', response);
-            useToast().success('Your registration was successful! Please check your email for further instructions.', {
+            useToast().success('Your registration was successful!', {
               position: 'top-right',
               timeout: 20000,
               closeOnClick: true,
@@ -163,6 +163,7 @@ export default {
               icon: false,
               rtl: false,
             });
+            this.$router.push('/registered?id=' + response.data.data.id);
           })
           .catch((error) => {
             console.log(error);

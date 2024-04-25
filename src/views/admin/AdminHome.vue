@@ -1,51 +1,61 @@
 <template>
   <div v-if="this.$store.state.user && adminAccess().includes(this.$store.state.user.role)">
-    <div class="flex h-[88vh]">
-      <!-- Sidebar -->
-      <div class="bg-gray-900 text-white w-64 flex-none">
-        <div class="p-4">
-          <h2 class="text-2xl font-semibold">Admin Dashboard</h2>
-          <p class="text-gray-400 mt-2">Hey {{ user.name }}, {{ getRandomInspirationalMessage() }}</p>
-        </div>
-        <!-- Navigation Links -->
-        <nav class="mt-6 justify-between flex-col flex">
-          <div class="flex flex-col">
-            <div v-for="(element, index) in nav" :key="element.id">
-              <button
-                  :id="element.name"
-                  :class="{ 'bg-blue-500': activeButtonIndex === index }"
-                  class="flex items-center px-4 py-2 text-md font-medium text-gray-300 hover:text-white rounded-3xl w-[90%] hover:bg-blue-500 ml-3 my-1 transition duration-200"
-                  @click="changeContent(element.component, index)">
-                <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
-                        stroke-width="2"></path>
-                </svg>
-                {{ element.name }}
-              </button>
-            </div>
+    <div v-if="user">
+      <div class="flex h-[88vh]">
+        <!-- Sidebar -->
+        <div class="bg-gray-900 text-white w-64 flex-none">
+          <div class="p-4">
+            <h2 class="text-2xl font-semibold">Admin Dashboard</h2>
+            <p class="text-gray-400 mt-2">Hey {{ user.name }}, {{ getRandomInspirationalMessage() }}</p>
           </div>
-        </nav>
-        <!-- Personal Card -->
-        <div class="flex m-2 fixed hover:bg-gray-800 rounded-2xl px-2 py-1 bottom-[7vh] min-w-60 max-w-60">
-          <!--TODO: Add user avatars and put them here-->
-          <img v-if="this.$store.state.user.avatar_url !== null" :src="this.$store.state.user.avatar_url"
-               alt="Your avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl">
-          <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2" src="/favicon.svg">
-          <span>
+          <!-- Navigation Links -->
+          <nav class="mt-6 justify-between flex-col flex">
+            <div class="flex flex-col">
+              <div v-for="(element, index) in nav" :key="element.id">
+                <button
+                    :id="element.name"
+                    :class="{ 'bg-blue-500': activeButtonIndex === index }"
+                    class="flex items-center px-4 py-2 text-md font-medium text-gray-300 hover:text-white rounded-3xl w-[90%] hover:bg-blue-500 ml-3 my-1 transition duration-200"
+                    @click="changeContent(element.component, index)">
+                  <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"></path>
+                  </svg>
+                  {{ element.name }}
+                </button>
+              </div>
+            </div>
+          </nav>
+          <!-- Personal Card -->
+          <div class="flex m-2 fixed hover:bg-gray-800 rounded-2xl px-2 py-1 bottom-[7vh] min-w-60 max-w-60">
+            <!--TODO: Add user avatars and put them here-->
+            <img v-if="this.$store.state.user.avatar_url !== null" :src="this.$store.state.user.avatar_url"
+                 alt="Your avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl">
+            <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2" src="/favicon.svg">
+            <span>
             <h1>{{ this.$store.state.user.name }}</h1>
             <p class="italic text-gray-400"> {{ this.$store.state.user.role }} </p>
           </span>
+          </div>
+        </div>
+        <!-- Main Content -->
+        <div class="flex-1">
+          <home v-if="currentPage === 'home'"/>
+          <users v-if="currentPage === 'users'"/>
+          <settings v-if="currentPage === 'settings'"/>
+          <ComingSoon v-if="comingSoon.includes(currentPage)"/>
         </div>
       </div>
-      <!-- Main Content -->
-      <div class="flex-1">
-        <home v-if="currentPage === 'home'"/>
-        <users v-if="currentPage === 'users'"/>
-        <settings v-if="currentPage === 'settings'"/>
-        <ComingSoon v-if="comingSoon.includes(currentPage)"/>
-      </div>
     </div>
+  </div>
+  <div v-else>
+  <h1 class="text-6xl text-white">Loading</h1>
+    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
+            stroke-width="2"></path>
+    </svg>
   </div>
   <LogIn v-else/>
 </template>
