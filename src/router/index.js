@@ -71,11 +71,6 @@ const router = createRouter({
             name: 'adminhome',
             component: () => import( '@/views/admin/AdminHome.vue'),
         },
-        {
-            path: '/admin/roles',
-            name: 'editroles',
-            component: () => import( '@/views/admin/EditUserRoles.vue'),
-        },
         // catchall
         {
             path: '/:pathMatch(.*)*',
