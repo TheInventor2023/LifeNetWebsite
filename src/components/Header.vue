@@ -19,7 +19,6 @@
         <router-link to="/contact"> Contact</router-link>
       </div>
 
-      <!-- Not implemented yet
       <div v-if="this.$store.state.user" class="mx-6 self-center text-gray-300 hover:text-white transition">
         <router-link to="/my-account"> My Account</router-link>
       </div>
@@ -31,7 +30,6 @@
            class=" mx-6 self-center text-gray-300 hover:text-white transition">
         <router-link to="/admin/home">Admin Dashboard</router-link>
       </div>
-      -->
 
     </div>
   </div>
@@ -68,7 +66,6 @@
         <router-link to="/contact" @click="mobile.show = false"> Contact</router-link>
       </div>
 
-      <!-- Backend isn't deployed yet
       <div v-if="this.$store.state.user" class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
         <router-link to="/my-account" @click="mobile.show = false"> My Account</router-link>
       </div>
@@ -81,7 +78,6 @@
            class=" mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
         <router-link to="/admin/home"  @click="mobile.show = false">Admin Dashboard</router-link>
       </div>
-      -->
     </div>
 
   </transition>
@@ -193,7 +189,7 @@ export default {
 
     // fetch banners
     axios.get('banners').then(value => {
-      if (value.data.message === 'No active banner') {
+      if (value.data.message === 'There are no banners!') {
         return;
       }
       this.banner = value.data.data.banner;
