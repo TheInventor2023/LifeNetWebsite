@@ -42,6 +42,11 @@ const router = createRouter({
             name: 'registration',
             component: () => import( '@/views/auth/RegistrationPage.vue'),
         },
+        {
+            path: '/registered',
+            name: 'registrationlanding',
+            component: () => import( '@/views/auth/RegistrationLanding.vue'),
+        },
 
         // legal stuff
         {
