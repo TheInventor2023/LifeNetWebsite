@@ -48,14 +48,17 @@
         </div>
       </div>
     </div>
-  </div>
-  <div v-else>
-  <h1 class="text-6xl text-white">Loading</h1>
-    <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-         xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"
-            stroke-width="2"></path>
-    </svg>
+    <div v-else class="flex justify-center m-16">
+      <p class="absolute hidden"> {{ loadUser() }} </p>
+      <svg height="100" viewBox="0 0 100 100" width="100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" fill="none" r="40" stroke="#000" stroke-width="4"/>
+        <circle cx="50" cy="50" fill="none" r="40" stroke="#f5c842" stroke-dasharray="180,200" stroke-width="4">
+          <animateTransform attributeName="transform" attributeType="XML" dur=".75s" from="0 50 50"
+                            repeatCount="indefinite"
+                            to="360 50 50" type="rotate"/>
+        </circle>
+      </svg>
+    </div>
   </div>
   <LogIn v-else/>
 </template>
@@ -149,6 +152,12 @@ export default {
     }
   },
   methods: {
+    loadUser() {
+      if(this.$store.state.user) {
+        this.user = this.$store.state.user;
+        return;
+      } else setTimeout(function() { this.loadUser(); }, 500);
+    },
     adminAccess() {
       return adminAccess
     },
@@ -162,8 +171,11 @@ export default {
   },
   mounted() {
     if (this.$store.state.user) {
-      if (!adminAccess.includes(this.$store.state.user.role))
+      if (!adminAccess.includes(this.$store.state.user.role)) {
         this.$router.push('/404');
+        return;
+      }
+      this.user = this.$store.state.user;
     }
 
 
