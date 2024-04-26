@@ -11,9 +11,9 @@
         <router-link to="/home"> Home</router-link>
       </div>
 
-      <div class="mx-6 self-center text-gray-300 hover:text-white transition">
+      <!--<div class="mx-6 self-center text-gray-300 hover:text-white transition">
         <a href="https://store.cytonic.net"> Store </a>
-      </div>
+      </div> -->
 
       <div class="mx-6 self-center text-gray-300 hover:text-white transition">
         <router-link to="/contact"> Contact</router-link>
@@ -58,9 +58,9 @@
         <router-link to="/home" @click="mobile.show = false"> Home</router-link>
       </div>
 
-      <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+      <!--<div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
         <a href="https://store.cytonic.net" @click="mobile.show = false"> Store </a>
-      </div>
+      </div> -->
 
       <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
         <router-link to="/contact" @click="mobile.show = false"> Contact</router-link>
