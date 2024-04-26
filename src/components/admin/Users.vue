@@ -158,7 +158,7 @@
             <h1 class="text-center ">ID: {{ user.id }} </h1>
           </div>
           <img v-if="user.avatar_url !== null" :alt="user.name + '\'s avatar'"
-               :src="this.$store.state.user.avatar_url" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl">
+               :src="user.avatar_url" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl">
           <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2" src="/favicon.svg">
           <div class="ml-2 flex-grow">
             <h1 v-if="user.terminated" class="font-semibold my-0 font-title"><span class="line-through">{{
