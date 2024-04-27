@@ -73,7 +73,7 @@
               <div class="flex m-2 fixed hover:bg-gray-800 rounded-2xl px-2 py-1 bottom-[7vh] min-w-60 max-w-60">
                 <!--TODO: Add user avatars and put them here-->
                 <img v-if="this.$store.state.user.avatar_url !== null" :src="this.$store.state.user.avatar_url"
-                     alt="Your avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl">
+                     alt="Your avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
                 <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2" src="/favicon.svg">
                 <span>
             <h1>{{ this.$store.state.user.name }}</h1>
