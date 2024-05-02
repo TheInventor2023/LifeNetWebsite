@@ -48,7 +48,10 @@
               <input id="avatar" accept="image/*"
                      class="block w-full mb-5 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                      type="file" @change="setAvatar">
-              <button class="btn btn-blue">Change Avatar</button>
+
+              <button v-if="avatar" class="btn btn-blue" :style="avatarBtn" >Change Avatar</button>
+              <button v-else class="btn btn-grey">Upload an image!</button>
+
             </form>
           </div>
           <!-- Change Username Panel -->
@@ -394,6 +397,11 @@ export default {
 .btn-blue {
   background-color: #3182ce;
   cursor: pointer;
+}
+
+.btn-grey {
+  background-color: #9ca3af;
+  cursor: not-allowed;
 }
 
 </style>
