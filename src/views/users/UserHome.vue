@@ -124,8 +124,25 @@ export default {
   },
   methods: {
     setAvatar(event) {
+      if(event.target.files[0].size > 20971520) {
+        useToast().error('The maximum file size is 20Mib.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          ccloseButton: 'button',
+          icon: false,
+          rtl: false,
+        });
+        return;
+      }
+
       this.avatar = event.target.files[0];
-      console.log(this.avatar)
     },
     deleteAccount() {
       axios
@@ -178,8 +195,26 @@ export default {
         });
         return;
       }
+
+      // this is deduntant due checking on the upload event
+      if(this.avatar.size > 20971520) {
+        useToast().error('The maximum file size is 20Mib.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          ccloseButton: 'button',
+          icon: false,
+          rtl: false,
+        });
+      }
+
       const data = new FormData();
-      console.log(this.avatar)
       data.append('user', this.$store.state.user)
       data.append('avatar', this.avatar);
       axios({
