@@ -71,6 +71,22 @@ export default {
         });
         return;
       }
+      if (!this.email || !this.password) {
+        useToast().error('Email and password are required.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          loseButton: 'button',
+          icon: false,
+          rtl: false,
+        })
+      }
       const loginData = {
         user: {
           email: this.email,
@@ -104,6 +120,7 @@ export default {
             this.componentKey += 1;
           })
           .catch((error) => {
+            console.error(error.response.data)
             if (!error || !error.response) return;
             if (error.code === 'ERR_NETWORK') {
               useToast().error('Connection refused. The server may be down or unreachable. Please try again later.', {
@@ -150,7 +167,7 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if (error.response.data === 'Invalid Email or Password.') {
+            } else if (error.response.data === 'Invalid Email or password.') {
               useToast().error('Invalid password or email!', {
                 position: 'top-right',
                 timeout: 10000,
@@ -193,6 +210,37 @@ export default {
                 howCloseButtonOnHover: false,
                 hideProgressBar: false,
                 loseButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+            } else if (error.response.data === 'nil user') {
+              deleteCookie("authToken");
+              useToast().error('Whoops! It looks like your auth cookie was desynced with the server. Please log in again.', {
+                position: 'top-right',
+                timeout: 10000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                howCloseButtonOnHover: false,
+                hideProgressBar: false,
+                loseButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+            } else {
+              useToast().error('An error occoured! Please check the browser console, and report this issue!', {
+                position: 'top-right',
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: false,
+                closeButton: 'button',
                 icon: false,
                 rtl: false,
               });
