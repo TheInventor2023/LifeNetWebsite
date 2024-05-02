@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import {createRouter, createWebHistory} from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
 
 const router = createRouter({
@@ -29,6 +29,25 @@ const router = createRouter({
             path: '/goodbye',
             name: 'goodbye',
             component: () => import( '@/views/misc/Goodbye.vue'),
+        },
+
+        // ** FORUMS ** //
+        {
+            path: '/forums/home',
+            alias: ['/forums'],
+            component: () => import('@/views/forums/FourmsLanding.vue')
+        },
+        {
+            path: '/forums/topics/:id',
+            component: () => import('@/views/forums/TopicLanding.vue')
+        },
+        {
+            path: '/forums/threads/:id',
+            component: () => import('@/views/forums/ThreadLanding.vue')
+        },
+        {
+            path: '/forums/thread/notfound',
+            component: () => import('@/views/forums/ThreadNotFound.vue')
         },
 
         // auth stuff
@@ -71,11 +90,17 @@ const router = createRouter({
             name: 'adminhome',
             component: () => import( '@/views/admin/AdminHome.vue'),
         },
+        {
+            path: '/threadmaker',
+            name: 'threadmaker',
+            component: () => import('@/views/forums/ThreadMaker.vue'),
+        },
         // catchall
         {
             path: '/:pathMatch(.*)*',
             name: 'NotFound',
-            component: () => import('@/views/misc/NotFound.vue') },
+            component: () => import('@/views/misc/NotFound.vue')
+        },
     ],
 });
 
