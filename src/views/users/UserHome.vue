@@ -48,7 +48,10 @@
               <input id="avatar" accept="image/*"
                      class="block w-full mb-5 text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                      type="file" @change="setAvatar">
-              <button class="btn btn-blue">Change Avatar</button>
+
+              <button v-if="avatar" class="btn btn-blue">Change Avatar</button>
+              <button v-else class="btn btn-grey">Upload an image!</button>
+
             </form>
           </div>
           <!-- Change Username Panel -->
@@ -97,11 +100,11 @@
 
 <script>
 import axios from "@/api.js";
+import * as Utils from "@/Utils.js";
 import {deleteCookie} from "@/Utils.js";
 import {useToast} from "vue-toastification";
 import {FontAwesomeIcon} from "@fortawesome/vue-fontawesome";
 import MustLogIn from "@/components/MustLogIn.vue";
-import * as Utils from "@/Utils.js";
 
 export default {
   components: {
@@ -120,9 +123,26 @@ export default {
     }
   },
   methods: {
-    setAvatar(event){
+    setAvatar(event) {
+      if(event.target.files[0].size > 20971520) {
+        useToast().error('The maximum file size is 20Mib.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          ccloseButton: 'button',
+          icon: false,
+          rtl: false,
+        });
+        return;
+      }
+
       this.avatar = event.target.files[0];
-      console.log(this.avatar)
     },
     deleteAccount() {
       axios
@@ -158,8 +178,43 @@ export default {
       this.deletionPopup = true;
     },
     changeAvatar() {
+      if (!this.avatar) {
+        useToast().error('Your must upload an avatar to change it!', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          ccloseButton: 'button',
+          icon: false,
+          rtl: false,
+        });
+        return;
+      }
+
+      // this is deduntant due checking on the upload event
+      if(this.avatar.size > 20971520) {
+        useToast().error('The maximum file size is 20Mib.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          ccloseButton: 'button',
+          icon: false,
+          rtl: false,
+        });
+      }
+
       const data = new FormData();
-      console.log(this.avatar)
       data.append('user', this.$store.state.user)
       data.append('avatar', this.avatar);
       axios({
@@ -243,7 +298,7 @@ export default {
           })
     },
     changePassword() {
-      if(this.confirmPassword !== this.newPassword) {
+      if (this.confirmPassword !== this.newPassword) {
         useToast().error('The new passwords must match!', {
           position: 'top-right',
           timeout: 5000,
@@ -268,31 +323,31 @@ export default {
         }
       })
           .then((response) => {
-        if (response.status === 200) { // successful password change (Log out afterward)
-          deleteCookie("authToken");
-          this.$store.commit('clear');
-          this.$router.push('/auth/login');
+            if (response.status === 200) { // successful password change (Log out afterward)
+              deleteCookie("authToken");
+              this.$store.commit('clear');
+              this.$router.push('/auth/login');
 
-          useToast().success('Your password was successfully changed! You have been logged out as a result.', {
-            position: 'top-right',
-            timeout: 2000,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: false,
-            closeButton: 'button',
-            icon: false,
-            rtl: false,
-          });
-        }
-      })
+              useToast().success('Your password was successfully changed! You have been logged out as a result.', {
+                position: 'top-right',
+                timeout: 2000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: false,
+                closeButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+            }
+          })
           .catch((error) => {
             console.log(error.response.data)
-            if(error.response.data.current_password) {
-              if(error.response.data.current_password[0] === 'is invalid') {
+            if (error.response.data.current_password) {
+              if (error.response.data.current_password[0] === 'is invalid') {
                 useToast().error('Your current password is invalid', {
                   position: 'top-right',
                   timeout: 5000,
@@ -310,8 +365,8 @@ export default {
                 return;
               }
             }
-            if(error.response.data.password) {
-              if(error.response.data.password[0] === 'is too short (minimum 6 characters)') {
+            if (error.response.data.password) {
+              if (error.response.data.password[0] === 'is too short (minimum 6 characters)') {
                 useToast().error('Your password must be at least 6 characters!', {
                   position: 'top-right',
                   timeout: 5000,
@@ -355,7 +410,7 @@ export default {
       })
           .catch((error) => {
             console.log(error);
-            if(error.response.message === 'No Authenticaion Token Provided.') {
+            if (error.response.message === 'No Authenticaion Token Provided.') {
               Utils.logout(this.$store);
               this.$router.push('/');
               return;
@@ -394,6 +449,11 @@ export default {
 .btn-blue {
   background-color: #3182ce;
   cursor: pointer;
+}
+
+.btn-grey {
+  background-color: #9ca3af;
+  cursor: not-allowed;
 }
 
 </style>
