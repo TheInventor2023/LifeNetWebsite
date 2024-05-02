@@ -71,6 +71,22 @@ export default {
         });
         return;
       }
+      if (!this.email || !this.password) {
+        useToast().error('Email and password are required.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          loseButton: 'button',
+          icon: false,
+          rtl: false,
+        })
+      }
       const loginData = {
         user: {
           email: this.email,
@@ -104,6 +120,7 @@ export default {
             this.componentKey += 1;
           })
           .catch((error) => {
+            console.error(error.response)
             if (!error || !error.response) return;
             if (error.code === 'ERR_NETWORK') {
               useToast().error('Connection refused. The server may be down or unreachable. Please try again later.', {
