@@ -213,6 +213,22 @@ export default {
                 icon: false,
                 rtl: false,
               });
+            } else if (error.response.data === 'nil user') {
+              deleteCookie("authToken");
+              useToast().error('Whoops! It looks like your auth cookie was desynced with the server. Please log in again.', {
+                position: 'top-right',
+                timeout: 10000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                howCloseButtonOnHover: false,
+                hideProgressBar: false,
+                loseButton: 'button',
+                icon: false,
+                rtl: false,
+              });
             }
           });
     }
