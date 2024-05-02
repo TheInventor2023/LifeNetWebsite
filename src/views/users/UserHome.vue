@@ -161,6 +161,23 @@ export default {
       this.deletionPopup = true;
     },
     changeAvatar() {
+      if (!this.avatar) {
+        useToast().error('Your must upload an avatar to change it!', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          ccloseButton: 'button',
+          icon: false,
+          rtl: false,
+        });
+        return;
+      }
       const data = new FormData();
       console.log(this.avatar)
       data.append('user', this.$store.state.user)
