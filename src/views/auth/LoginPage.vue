@@ -120,7 +120,7 @@ export default {
             this.componentKey += 1;
           })
           .catch((error) => {
-            console.error(error.response)
+            console.error(error.response.data)
             if (!error || !error.response) return;
             if (error.code === 'ERR_NETWORK') {
               useToast().error('Connection refused. The server may be down or unreachable. Please try again later.', {
@@ -167,7 +167,7 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if (error.response.data === 'Invalid Email or Password.') {
+            } else if (error.response.data === 'Invalid Email or password.') {
               useToast().error('Invalid password or email!', {
                 position: 'top-right',
                 timeout: 10000,
