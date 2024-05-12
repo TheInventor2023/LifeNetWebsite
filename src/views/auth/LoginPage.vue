@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     setAuthTokenCookie(token) {
-      const expirationDate = new Date(Date.now() + 1800000);
+      const expirationDate = new Date(Date.now() + 1000 * 60 * 60 * 24);
       const cookieValue = `${encodeURIComponent(token)}; expires=${expirationDate.toUTCString()}; path=/`;
       document.cookie = `authToken=${cookieValue}; SameSite=Strict; Secure`;
     },
