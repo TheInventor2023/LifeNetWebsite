@@ -1,0 +1,23 @@
+<svg width="250" height="250" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient y2="100%" id="a">
+            <stop stop-color="#5555FF" offset="0"/>
+            <stop stop-color="#15153F" offset="1"/>
+        </linearGradient>
+
+        <mask id="mask">
+            <rect width="200" height="200" fill="white"/>
+            <rect x="60" ry="10" y="50" width="130" height="130" fill="black"/>
+        </mask>
+    </defs>
+
+
+    <path id="svg_1" d="m25,37q100,-27 200,0q-25,0 -25,13l-150,0q0,-13 -25,-13" stroke="#000" fill="url(#a)"/>
+    <rect id="svg_2" ry="5" rx="10" stroke="#000" fill="url(#a)" y="40" x="50" height="150" width="150"
+          mask="url(#mask)"/>
+    <rect id="svg_3" ry="10" stroke="#000" fill="none" y="50" x="60" height="130" width="130"/>
+    <rect id="svg_4" ry="8" rx="8" stroke="#000" fill="url(#a)" y="30" x="85" height="25" width="80"/>
+    <text id="svg_5" text-anchor="middle" font-size="20" font-family="Courier New" fill="#FFD700" y="50" x="125">HELPER
+    </text>
+
+</svg>

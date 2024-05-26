@@ -100,17 +100,17 @@
             <button v-else class="bg-red-600 text-white px-4 py-2 rounded mr-2"
                     @click="modal_button = 'terminate_user'">Terminate Account
             </button>
-            <button class="bg-yellow-500-removeme bg-gray-400 text-white px-4 py-2 rounded mr-2 cursor-not-allowed">Mute
-              User
+            <button v-if="!modalUser.muted" class="bg-yellow-500-removeme bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                    @click="muteUser(modalUser.id)">Mute User
+            </button>
+            <button v-if="modalUser.muted" class="bg-yellow-500-removeme bg-indigo-500 text-white px-4 py-2 rounded mr-2"
+                    @click="unmuteUser(modalUser.id)">Unmute User
             </button>
             <!-- Add more buttons for other actions as needed -->
           </div>
           <div v-if="modal_button === 'change_roles'" class="mt-8 relative">
             <button class="absolute top-[-2.5vh] left-[-2vw]" @click="modal_button = null">
-              <svg height="22" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="#fff"/>
-              </svg>
+              <img src="@/assets/back.svg" alt="<-">
             </button>
             <div class="flex justify-between">
               <button class="bg-[#3498db] text-white px-4 py-2 rounded mr-2" @click="changeRole(modalUser, 'user')">
@@ -158,7 +158,7 @@
             <h1 class="text-center ">ID: {{ user.id }} </h1>
           </div>
           <img v-if="user.avatar_url !== null" :alt="user.name + '\'s avatar'"
-               :src="user.avatar_url" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
+               :src="this.$store.state.user.avatar_url" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
           <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2" src="/favicon.svg">
           <div class="ml-2 flex-grow">
             <h1 v-if="user.terminated" class="font-semibold my-0 font-title"><span class="line-through">{{
@@ -268,6 +268,7 @@ export default {
           break;
         }
         case "muted": {
+          this.userData = this.userData.filter(obj => obj.muted);
           break;
         }
       }
@@ -618,6 +619,26 @@ export default {
               rtl: false,
             });
           })
+    },
+    muteUser(id) {
+      axios.put("admin/mute/" + id)
+          .then(() => {
+            useToast().success("Success!")
+            this.showModal = false;
+          })
+          .catch(() => {
+            useToast().error("An error occurred whilst muting user!")
+          });
+    },
+    unmuteUser(id) {
+      axios.delete("admin/mute/" + id)
+          .then(() => {
+            useToast().success("Success!")
+            this.showModal = false;
+          })
+          .catch(() => {
+            useToast().error("An error occurred whilst muting user!")
+          });
     },
 
 
