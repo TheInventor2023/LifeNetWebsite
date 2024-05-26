@@ -19,6 +19,10 @@
         <router-link to="/contact"> Contact</router-link>
       </div>
 
+      <div class="mx-6 self-center text-gray-300 hover:text-white transition">
+        <router-link to="/forums"> Forums</router-link>
+      </div>
+
       <div v-if="this.$store.state.user" class="mx-6 self-center text-gray-300 hover:text-white transition">
         <router-link to="/my-account"> My Account</router-link>
       </div>
@@ -64,6 +68,10 @@
 
       <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
         <router-link to="/contact" @click="mobile.show = false"> Contact</router-link>
+      </div>
+
+      <div class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
+        <router-link to="/forums" @click="mobile.show = false"> Forums</router-link>
       </div>
 
       <div v-if="this.$store.state.user" class="mx-6 self-center text-gray-300 hover:text-white transition text-2xl mt-2 font-title">
