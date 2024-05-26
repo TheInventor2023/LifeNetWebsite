@@ -100,8 +100,11 @@
             <button v-else class="bg-red-600 text-white px-4 py-2 rounded mr-2"
                     @click="modal_button = 'terminate_user'">Terminate Account
             </button>
-            <button class="bg-yellow-500-removeme bg-gray-400 text-white px-4 py-2 rounded mr-2 cursor-not-allowed">Mute
-              User
+            <button v-if="!modalUser.muted" class="bg-yellow-500-removeme bg-blue-500 text-white px-4 py-2 rounded mr-2"
+                    @click="muteUser(modalUser.id)">Mute User
+            </button>
+            <button v-if="modalUser.muted" class="bg-yellow-500-removeme bg-indigo-500 text-white px-4 py-2 rounded mr-2"
+                    @click="unmuteUser(modalUser.id)">Unmute User
             </button>
             <!-- Add more buttons for other actions as needed -->
           </div>
@@ -265,6 +268,7 @@ export default {
           break;
         }
         case "muted": {
+          this.userData = this.userData.filter(obj => obj.muted);
           break;
         }
       }
@@ -615,6 +619,26 @@ export default {
               rtl: false,
             });
           })
+    },
+    muteUser(id) {
+      axios.put("admin/mute/" + id)
+          .then(() => {
+            useToast().success("Success!")
+            this.showModal = false;
+          })
+          .catch(() => {
+            useToast().error("An error occurred whilst muting user!")
+          });
+    },
+    unmuteUser(id) {
+      axios.delete("admin/mute/" + id)
+          .then(() => {
+            useToast().success("Success!")
+            this.showModal = false;
+          })
+          .catch(() => {
+            useToast().error("An error occurred whilst muting user!")
+          });
     },
 
 
