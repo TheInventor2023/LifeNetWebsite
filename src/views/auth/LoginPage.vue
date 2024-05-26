@@ -6,21 +6,29 @@
         <label class="block text-gray-300 text-sm font-bold mb-2" for="email">
           Email
         </label>
-        <input v-model="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-800" id="email" type="email" placeholder="Email">
+        <input v-model="email"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+               id="email" type="email" placeholder="Email">
       </div>
       <div class="mb-4">
         <label class="block text-gray-300 text-sm font-bold mb-2" for="password">
           Password
         </label>
-        <input v-model="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-800" id="password" type="password" placeholder="Password">
+        <input v-model="password"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-800"
+               id="password" type="password" placeholder="Password">
       </div>
       <div class="flex items-center justify-between">
-        <button @click.prevent="login" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+        <button @click.prevent="login"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type="button">
           Login
         </button>
       </div>
       <div class="italic text-gray-500 mt-4">
-        <p>Don't have an account? <router-link to="/auth/register" class="underline text-blue-500">Register</router-link></p>
+        <p>Don't have an account?
+          <router-link to="/auth/register" class="underline text-blue-500">Register</router-link>
+        </p>
       </div>
     </form>
   </div>
@@ -63,6 +71,22 @@ export default {
         });
         return;
       }
+      if (!this.email || !this.password) {
+        useToast().error('Email and password are required.', {
+          position: 'top-right',
+          timeout: 5000,
+          closeOnClick: true,
+          pauseOnFocusLoss: true,
+          pauseOnHover: true,
+          draggable: true,
+          draggablePercent: 0.6,
+          showCloseButtonOnHover: false,
+          hideProgressBar: false,
+          loseButton: 'button',
+          icon: false,
+          rtl: false,
+        })
+      }
       const loginData = {
         user: {
           email: this.email,
@@ -73,7 +97,7 @@ export default {
           .then((response) => {
             this.$store.commit('set', response.data.status.data.user);
             this.setAuthTokenCookie(response.headers.getAuthorization());
-            if(this.when_done) {
+            if (this.when_done) {
               this.$router.push(this.when_done);
               return;
             }
@@ -96,6 +120,7 @@ export default {
             this.componentKey += 1;
           })
           .catch((error) => {
+            console.error(error.response.data)
             if (!error || !error.response) return;
             if (error.code === 'ERR_NETWORK') {
               useToast().error('Connection refused. The server may be down or unreachable. Please try again later.', {
@@ -142,7 +167,7 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if (error.response.data === 'Invalid Email or Password.') {
+            } else if (error.response.data === 'Invalid Email or password.') {
               useToast().error('Invalid password or email!', {
                 position: 'top-right',
                 timeout: 10000,
@@ -157,7 +182,7 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if(error.response.data === 'Signature has expired' || error.response.data === 'revoked token') {
+            } else if (error.response.data === 'Signature has expired' || error.response.data === 'revoked token') {
               deleteCookie("authToken");
               useToast().error('Whoops! It looks like your token has expired. Please try again.', {
                 position: 'top-right',
@@ -173,7 +198,7 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if(error.response.data.message === 'This user has been terminated for violating the Term of Service or User Conduct Agreement.') {
+            } else if (error.response.data.message === 'This user has been terminated for violating the Term of Service or User Conduct Agreement.') {
               useToast().error('Your account has been terminated for violating the Term of Service or User Conduct Agreement. Please check your email for more information reguarding your account\'s termination.', {
                 position: 'top-right',
                 timeout: 100000,
@@ -185,6 +210,37 @@ export default {
                 howCloseButtonOnHover: false,
                 hideProgressBar: false,
                 loseButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+            } else if (error.response.data === 'nil user') {
+              deleteCookie("authToken");
+              useToast().error('Whoops! It looks like your auth cookie was desynced with the server. Please log in again.', {
+                position: 'top-right',
+                timeout: 10000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                howCloseButtonOnHover: false,
+                hideProgressBar: false,
+                loseButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+            } else {
+              useToast().error('An error occoured! Please check the browser console, and report this issue!', {
+                position: 'top-right',
+                timeout: 5000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: false,
+                closeButton: 'button',
                 icon: false,
                 rtl: false,
               });
@@ -226,7 +282,7 @@ export default {
       }
     }
     if (this.$route.query.when_done) {
-        this.when_done = this.$route.query.when_done;
+      this.when_done = this.$route.query.when_done;
     }
   },
 }
