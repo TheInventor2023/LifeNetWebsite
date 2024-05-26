@@ -90,11 +90,6 @@ const router = createRouter({
             name: 'adminhome',
             component: () => import( '@/views/admin/AdminHome.vue'),
         },
-        {
-            path: '/threadmaker',
-            name: 'threadmaker',
-            component: () => import('@/views/forums/ThreadMaker.vue'),
-        },
         // catchall
         {
             path: '/:pathMatch(.*)*',
