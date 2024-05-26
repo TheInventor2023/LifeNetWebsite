@@ -23,6 +23,7 @@
                           stroke-width="2"></path>
                   </svg>
                   {{ element.name }}
+                  <p v-if="element.component === 'player_reports' && activeReports > 0" class=" mx-2 bg-red-500 px-2 rounded-full font-bold">{{ activeReports }}</p>
                 </button>
               </div>
             </div>
@@ -30,8 +31,10 @@
           <!-- Personal Card -->
           <div class="flex m-2 fixed hover:bg-gray-800 rounded-2xl px-2 py-1 bottom-[7vh] min-w-60 max-w-60">
             <img v-if="this.$store.state.user.avatar_url !== null" :src="this.$store.state.user.avatar_url"
-                 alt="Your avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
-            <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 aspect-square object-cover" src="/favicon.svg">
+                 alt="Your avatar"
+                 class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
+            <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 aspect-square object-cover"
+                 src="/favicon.svg">
             <span>
             <h1>{{ this.$store.state.user.name }}</h1>
             <p class="italic text-gray-400"> {{ this.$store.state.user.role }} </p>
@@ -55,7 +58,7 @@
                 <div class="flex flex-col">
                   <div v-for="(element, index) in nav" :key="element.id">
                     <button
-                        :id="element.name"
+                        :id="element.id"
                         :class="{ 'bg-blue-500': activeButtonIndex === index }"
                         class="flex items-center px-4 py-2 text-md font-medium text-gray-300 hover:text-white rounded-3xl w-[90%] hover:bg-blue-500 ml-3 my-1 transition duration-200"
                         @click="changeContent(element.component, index)">
@@ -65,6 +68,7 @@
                               stroke-width="2"></path>
                       </svg>
                       {{ element.name }}
+                      <p v-if="element.component === 'player_reports' && activeReports >= 0" class=" mx-2 bg-red-500 px-2 rounded-full font-bold">{{ activeReports }}</p>
                     </button>
                   </div>
                 </div>
@@ -84,12 +88,11 @@
           </transition>
 
           <button v-if="mobile.show_open" class="absolute p-3" @click="mobile.show = true">
-            <svg width="24" height="24" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-              <path d="M30 20 L70 50 L30 80" stroke="white" stroke-width="10" fill="none"/>
+            <svg height="24" viewBox="0 0 100 100" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 20 L70 50 L30 80" fill="none" stroke="white" stroke-width="10"/>
             </svg>
           </button>
         </div>
-
 
 
         <!-- Main Content -->
@@ -97,6 +100,7 @@
           <home v-if="currentPage === 'home'"/>
           <users v-if="currentPage === 'users'"/>
           <settings v-if="currentPage === 'settings'"/>
+          <reports v-if="currentPage === 'player_reports'"/>
           <ComingSoon v-if="comingSoon.includes(currentPage)"/>
         </div>
       </div>
@@ -122,8 +126,10 @@ import Users from "@/components/admin/Users.vue";
 import {adminAccess} from '@/Utils.js'
 import ComingSoon from "@/components/admin/ComingSoon.vue";
 import Settings from "@/components/admin/Settings.vue";
+import axios from "@/api.js";
+import Reports from "@/components/admin/Reports.vue";
 
-const comingSoon = ['player_reports', 'statistics', 'bug_reports', 'audit_log', 'appeals'];
+const comingSoon = ['statistics', 'bug_reports', 'audit_log', 'appeals'];
 const inspirationalMessages = [
   "Dream big.",
   "Stay positive.",
@@ -154,7 +160,7 @@ export default {
       return comingSoon
     }
   },
-  components: {Settings, ComingSoon, Users, Home, LogIn},
+  components: {Settings, ComingSoon, Users, Home, LogIn, Reports},
   data() {
     return {
       mobile: {
@@ -164,6 +170,7 @@ export default {
       user: this.$store.state.user,
       currentPage: "home",
       activeButtonIndex: 0,
+      activeReports: 0,
       nav: [
         {
           id: 0,
@@ -182,7 +189,7 @@ export default {
         },
         {
           id: 3,
-          name: 'Player Reports',
+          name: 'Reports',
           component: 'player_reports'
         },
         {
@@ -268,11 +275,24 @@ export default {
       }
       this.user = this.$store.state.user;
     }
-
-
     if (this.$route.query.page) {
       this.currentPage = this.$route.query.page;
     }
+
+    axios.get("/reports/comment/")
+        .then(value => {
+          console.log(value.data.data.length);
+          this.activeReports += value.data.data.length
+        }).catch(() => {
+          console.log("Failed to get reports :(")
+    })
+    axios.get("/reports/thread/")
+        .then(value => {
+          console.log(value.data.data.length);
+          this.activeReports += value.data.data.length
+        }).catch(() => {
+      console.log("Failed to get reports :(")
+    })
   },
 }
 </script>
