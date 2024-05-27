@@ -95,7 +95,7 @@
               <p><span class="font-semibold">Reported At:</span> {{ formatDateTime(modalreport.attributes.created_at) }}
               </p>
               <p><span class="font-semibold">Reason:</span> {{ modalreport.attributes.reason }}</p>
-              <p><span class="font-semibold">Comment:</span> {{ modalreport.attributes.thread.data.attributes.body }}</p>
+              <p><span class="font-semibold">Thread Body:</span> {{ modalreport.attributes.thread.data.attributes.body }}</p>
               <p><span class="font-semibold">Deleted:</span> {{ modalreport.attributes.thread.data.attributes.deleted ? 'Yes' : 'No' }}
               </p>
             </div>
