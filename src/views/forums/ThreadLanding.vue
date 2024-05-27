@@ -222,7 +222,7 @@
                       <option value="illegal_activities">Promoting or engaging in illegal activity</option>
                       <option value="personal_info">Sensitive personal information</option>
                       <option value="malware">Hacks, cheats, phishing or malicious links</option>
-                      <option value="too_young">The poster, {{ targeted_comment.attributes.user.name }}, is under the
+                      <option value="too_young">The poster, {{ targeted_comment.attributes.user.data.attributes.name }}, is under the
                         age
                         of 13
                       </option>
