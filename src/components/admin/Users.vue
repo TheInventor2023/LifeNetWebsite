@@ -67,7 +67,7 @@
             </svg>
           </button>
           <img v-if="modalUser.avatar_url" :alt="modalUser.name + '\'s Avatar'" :src="modalUser.avatar_url"
-               class="max-w-24 absolute rounded-2xl right-[4vw]">
+               class="max-w-24 absolute rounded-2xl right-[4vw] aspect-square object-cover">
           <img v-else :alt="modalUser.name + '\'s Avatar'" class="max-w-24 max-h-24 absolute right-[3.5vw] m-5"
                src="/favicon.svg">
           <!-- User data -->
