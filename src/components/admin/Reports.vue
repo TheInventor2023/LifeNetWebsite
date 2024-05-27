@@ -41,69 +41,6 @@
       </div>
     </div>
 
-    <!-- Modal -->
-    <!--    <transition name="modal" @enter="enter" @leave="leave" @before-enter="beforeEnter">-->
-    <!--      <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">-->
-    <!--        <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full relative">-->
-    <!--          &lt;!&ndash; Close button &ndash;&gt;-->
-    <!--          <button class="top-0 absolute right-0 mt-4 mr-4 text-gray-400"-->
-    <!--                  @click="showModal = false; modal_button = null">-->
-    <!--            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
-    <!--              <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>-->
-    <!--            </svg>-->
-    <!--          </button>-->
-
-    <!--          <h1 class="font-title font-semibold text-xl">Comment report #{{ modalComment.id }}</h1>-->
-
-
-    <!--          &lt;!&ndash;          Punish the sender of the comment &ndash;&gt;-->
-    <!--          <div class="flex justify-center flex-col">-->
-    <!--            <p class="text-center">Punish {{ findUser(modalComment.attributes.comment.user_id).attributes.name }}</p>-->
-    <!--            <hr class="my-2 w-[75%] m-auto">-->
-    <!--            <div class="flex justify-center">-->
-    <!--              <button class="bg-green-500 p-2 mx-2 rounded-2xl font-semibold border shadow-md shadow-slate-950">Mute User</button>-->
-    <!--              <button class="bg-red-500 p-2 mx-2 rounded-2xl font-semibold border shadow-md shadow-slate-950">Terminate Account</button>-->
-    <!--            </div>-->
-
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </transition>-->
-
-    <!--    <transition name="modal" @enter="enter" @leave="leave" @before-enter="beforeEnter">-->
-    <!--      <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">-->
-    <!--        <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full relative shadow-lg">-->
-    <!--          &lt;!&ndash; Close button &ndash;&gt;-->
-    <!--          <button class="absolute top-4 right-4 text-gray-400" @click="showModal = false">-->
-    <!--            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">-->
-    <!--              <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>-->
-    <!--            </svg>-->
-    <!--          </button>-->
-
-    <!--          <h1 class="font-title font-semibold text-2xl mb-4">Comment Report #{{ modalComment.id }}</h1>-->
-
-    <!--          <div class="mb-4">-->
-    <!--            <p><span class="font-semibold">Reported By:</span> {{ findUser(modalComment.relationships.user.data.id).attributes.name }}</p>-->
-    <!--            <p><span class="font-semibold">Reported At:</span> {{ formatDateTime(modalComment.attributes.created_at) }}</p>-->
-    <!--            <p><span class="font-semibold">Reason:</span> {{ modalComment.attributes.reason }}</p>-->
-    <!--            <p><span class="font-semibold">Comment:</span> {{ modalComment.attributes.comment.body }}</p>-->
-    <!--            <p><span class="font-semibold">Deleted:</span> {{ modalComment.attributes.comment.deleted ? 'Yes' : 'No' }}</p>-->
-    <!--          </div>-->
-
-    <!--          &lt;!&ndash; Punish the sender of the comment &ndash;&gt;-->
-    <!--          <div class="flex flex-col items-center">-->
-    <!--            <p class="text-center mb-2">Punish {{ findUser(modalComment.attributes.comment.user_id).attributes.name }}</p>-->
-    <!--            <hr class="w-[75%] mb-4">-->
-    <!--            <div class="flex space-x-4">-->
-    <!--              <button class="bg-yellow-500 px-4 py-2 rounded-xl font-semibold shadow-slate-950 shadow-md">Mute User</button>-->
-    <!--              <button class="bg-red-500 px-4 py-2 rounded-xl font-semibold shadow-slate-950 shadow-md">Terminate Account</button>-->
-    <!--            </div>-->
-    <!--            <button class="bg-green-500 px-2 py-1 rounded-xl font-semibold shadow-slate-950 shadow-md mt-3 italic">Resolve without action</button>-->
-    <!--          </div>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </transition>-->
-
     <transition name="modal" @enter="enter" @leave="leave" @before-enter="beforeEnter">
       <div v-if="showModal" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75">
         <div class="bg-gray-800 rounded-lg p-8 max-w-md w-full relative shadow-lg">
