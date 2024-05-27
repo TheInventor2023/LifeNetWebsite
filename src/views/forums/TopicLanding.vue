@@ -77,6 +77,9 @@
             {{ formatDateTime(thread.attributes.updated_at) }}</p>
           <p class="mt-2">{{ thread.content }}</p>
         </div>
+        <div v-if="filteredThreads.length <= 0">
+          <h1 class="font-title text-center text-2xl m-6">No Threads! Perhaps you should make one :)</h1>
+        </div>
       </div>
       <div v-else-if="!this.$store.state.user">
         <h1 class="text-center m-4 text-lg p-4 bg-red-800 rounded-xl border-red-400 border">You must be logged in to
