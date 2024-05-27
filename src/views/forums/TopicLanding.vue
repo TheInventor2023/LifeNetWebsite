@@ -13,23 +13,26 @@
                 <path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
               </svg>
             </button>
-             <form @submit.prevent="createThread">
-                <div class="mb-4">
-                  <label class="block text-gray-300" for="title">Title:</label>
-                  <input id="title" v-model="thread.title" class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2" required type="text"/>
-                </div>
+            <form @submit.prevent="createThread">
+              <div class="mb-4">
+                <label class="block text-gray-300" for="title">Title:</label>
+                <input id="title" v-model="thread.title"
+                       class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2" required type="text"/>
+              </div>
 
-                <div class="mb-4">
-                  <label class="block text-gray-300" for="body">Body:</label>
-                  <textarea id="body" v-model="thread.body" class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2" required rows="20"/>
-                </div>
+              <div class="mb-4">
+                <label class="block text-gray-300" for="body">Body:</label>
+                <textarea id="body" v-model="thread.body"
+                          class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2 resize-y" required
+                          @input="resizeTextarea" ref="dynamicTextarea"/>
+              </div>
 
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition" type="submit">
-                  Create Thread
-                </button>
-              </form>
-            </div>
+              <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition" type="submit">
+                Create Thread
+              </button>
+            </form>
           </div>
+        </div>
       </div>
     </transition>
 
@@ -63,8 +66,9 @@
           </select>
         </div>
 
-        <button class="text-white px-4 py-2 rounded" :class="canMakeThread ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700 cursor-not-allowed'"
-            @click="canMakeThread ? showModal = true : useToast().error('You cannot make threads.')">
+        <button class="text-white px-4 py-2 rounded"
+                :class="canMakeThread ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-600 hover:bg-gray-700 cursor-not-allowed'"
+                @click="canMakeThread ? showModal = true : useToast().error('You cannot make threads.')">
           New Thread
         </button>
       </div>
@@ -141,13 +145,13 @@ export default {
       return threads;
     },
     canMakeThread() {
-      if(!this.$store.state.user) {
-         return false;
+      if (!this.$store.state.user) {
+        return false;
       }
-      if(adminAccess.includes(this.$store.state.user.role)) {
+      if (adminAccess.includes(this.$store.state.user.role)) {
         return true;
       }
-      switch(this.topic){
+      switch (this.topic) {
         case 'NEWS_AND_ANNOUCEMENTS': {
           return false
         }
@@ -183,6 +187,14 @@ export default {
     },
   },
   methods: {
+    resizeTextarea() {
+      if (this.showModal) {
+        const textarea = this.$refs.dynamicTextarea;
+        textarea.style.height = 'auto'; // Reset height to calculate the new height
+        const newHeight = Math.min(textarea.scrollHeight, window.innerHeight * 0.4);
+        textarea.style.height = `${newHeight}px`;
+      }
+    },
     useToast,
     createThread() {
       this.thread.topic = this.topic;
@@ -274,6 +286,8 @@ export default {
       this.$router.push('/forums')
       return;
     }
+
+    this.resizeTextarea();
 
     axios.get('/forums/topics/' + this.topic)
         .then(reponse => {

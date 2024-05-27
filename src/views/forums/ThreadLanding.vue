@@ -273,9 +273,10 @@
                 </svg>
               </button>
               <h1 class="font-title text-xl mb-4 text-white">Edit Comment</h1>
-              <textarea v-model="modals.editText" class="w-full p-2 bg-gray-700 rounded-lg text-white" rows="10"/>
+              <textarea v-model="modals.editText" class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2 resize-y" required
+                        @input="resizeTextarea" ref="dynamicTextarea"/>
               <p class="text-xs italic text-gray-400 mt-1">This editor supports markdown!</p>
-
+              {{resizeTextarea() }}
               <div class="flex justify-end mt-4">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mr-2"
                         @click="editComment(targeted_comment); modals.editText = ''; modals.editComment = false">Save
@@ -303,7 +304,7 @@
               </button>
               <h1 class="font-title text-xl mb-4 text-white">Edit Thread</h1>
               <textarea v-model="modals.thread.threadText" class="w-full p-2 bg-gray-700 rounded-lg text-white"
-                        rows="20"/>
+                        @input="resizeTextarea" ref="dynamicTextarea"/>
               <p class="text-xs italic text-gray-400">This editor supports markdown!</p>
               <div class="flex justify-end mt-4">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mr-2"
@@ -661,6 +662,8 @@ export default {
       return;
     }
 
+    this.resizeTextarea();
+
     axios
         .get("/forums/threads/" + this.thread_id)
         .then((response) => {
@@ -675,10 +678,17 @@ export default {
         });
   },
   methods: {
+    resizeTextarea() {
+      if (this.modals.thread.editThread || this.modals.editText) {
+        const textarea = this.$refs.dynamicTextarea;
+        textarea.style.height = 'auto'; // Reset height to calculate the new height
+        const newHeight = Math.min(textarea.scrollHeight, window.innerHeight * 0.4);
+        textarea.style.height = `${newHeight}px`;
+      }
+    },
     sanitize(html) {
       return html.replace(/&/g, "&amp;")
           .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#039;")
           .replace(/<(?=[^a-zA-Z\/])/g, '&lt;');
@@ -773,6 +783,7 @@ export default {
       this.targeted_comment = comment;
       this.modals.editComment = true;
       this.modals.editText = this.targeted_comment.attributes.body;
+      this.resizeTextarea();
     },
     editComment(comment) {
       const text = this.modals.editText
