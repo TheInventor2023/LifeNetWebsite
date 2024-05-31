@@ -81,7 +81,7 @@ export default {
         {
           id: 5,
           name: "PrinceLegacy",
-          position: "Mod",
+          position: "Manager",
           avatar: "https://cdn.discordapp.com/avatars/1039887622216089682/0f3cc4378c11d877a43ffd9e3e1fde74?size=1024"
         },
       ],
