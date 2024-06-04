@@ -158,7 +158,7 @@
                       <option value="illegal_activities">Promoting or engaging in illegal activity</option>
                       <option value="personal_info">Sensitive personal information</option>
                       <option value="malware">Hacks, cheats, phishing or malicious links</option>
-                      <option value="too_young">The poster, {{ thread.attributes.user.name }}, is under the age
+                      <option value="too_young">The poster, {{ thread.attributes.user.data.attributes.name }}, is under the age
                         of 13
                       </option>
                       <option value="other">Other</option>
@@ -176,7 +176,7 @@
                 <img alt="<-" src="@/assets/back.svg">
                 Go Back
               </span>
-                <h1 class="font-title text-lg">You are reporting {{ thread.attributes.user.name }}</h1>
+                <h1 class="font-title text-lg">You are reporting {{ thread.attributes.user.data.attributes.name }}</h1>
                 <p class="m-1 bg-slate-600 p-2 rounded-2xl">Reason: {{ translatedReason }}</p>
                 <p class="text-gray-400 italic text-xs">By clicking 'confirm report' you confirm that this report is
                   truthful and made in good faith. Abuse of the system may result in the termination of your
@@ -385,19 +385,19 @@
           <span v-if="this.$store.state.user"
                 class="flex flex-row justify-between border-gray-500 border m-1 px-2 rounded-full">
 <!--              The user can edit their own threads-->
-              <button v-if="thread.attributes.user.id === this.$store.state.user.id"
+              <button v-if="thread.attributes.user.data.attributes.id === this.$store.state.user.id"
                       v-tooltip="'Edit this thread.'" class="mx-2" @click="showEditThreadModal(thread)">
                 <font-awesome-icon icon="pencil"/>
               </button>
             <!--              Both the user AND admins can delete comments-->
-              <button v-if="(thread.attributes.user.id === this.$store.state.user.id)"
+              <button v-if="(thread.attributes.user.data.attributes.id === this.$store.state.user.id)"
                       v-tooltip="'Delete this thread.'" class="text-red-500 mx-2"
                       @click="modals.thread.deleteThread = true">
                 <font-awesome-icon icon="trash"/>
               </button>
             <!-- Admin aboose -->
                <button
-                   v-if="(adminAccess().includes(this.$store.state.user.role)) && !(this.$store.state.user && (thread.attributes.user.id === this.$store.state.user.id))"
+                   v-if="(adminAccess().includes(this.$store.state.user.role)) && !(this.$store.state.user && (thread.attributes.user.data.attributes.id === this.$store.state.user.id))"
                    v-tooltip="'Delete this thread with admin privileges.'"
                    class="text-red-500 mx-2"
                    @click="modals.thread.adminDeleteThread = true">
@@ -448,7 +448,7 @@
               />
             </div>
             <span class="text-lg font-medium">
-            {{ thread.attributes.user.name }}
+            {{ thread.attributes.user.data.attributes.name }}
             <span class="text-sm text-gray-400">
               {{ role }}
             </span>
@@ -615,13 +615,13 @@ export default {
       return Utils
     },
     avatar() {
-      if (!this.thread.attributes.user.avatar_url) {
+      if (!this.thread.attributes.user.data.attributes.avatar_url) {
         return default_avatar
       }
-      return this.thread.attributes.user.avatar_url
+      return this.thread.attributes.user.data.attributes.avatar_url
     },
     role() {
-      return this.thread.attributes.user.role.charAt(0).toUpperCase() + this.thread.attributes.user.role.slice(1);
+      return this.thread.attributes.user.data.attributes.role.charAt(0).toUpperCase() + this.thread.attributes.user.data.attributes.role.slice(1);
     },
     translatedReason() {
       switch (this.reporting.reason) {

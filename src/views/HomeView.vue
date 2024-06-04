@@ -14,8 +14,8 @@
         <div v-for="item in staff" :key="item.id"
              class="border border-black hover:border-zinc-50 flex-row flex justify-center m-6 min-w-[300px] max-w-[200px] rounded p-3 overflow-ellipsis flex-grow transform transition duration-100">
           <div>
-            <img :alt="item.name + '\'s avatar'" :src="item.avatar"
-                 class="max-h-16 min-h-16 min-w-16 max-w-16 rounded-3xl">
+            <img :alt="item.name + '\'s avatar'" :src="item.avatar_url"
+                 class="max-h-16 min-h-16 min-w-16 max-w-16 rounded-3xl m-1 p-1">
           </div>
           <div class="flex flex-col justify-center items-center">
             <h1 class="px-2">{{ item.name }}</h1>
@@ -44,6 +44,8 @@
   </div>
 </template>
 <script>
+import favicon from "/favicon-pride.svg"
+import axios from "@/api.js";
 export default {
   data() {
     return {
@@ -52,13 +54,13 @@ export default {
           id: 1,
           name: "Webhead1104",
           position: "CEO",
-          avatar: "https://cdn.discordapp.com/avatars/1109098229800382584/806114e2e8570b51c53c89a2c80d1b24?size=1024"
+          avatar: 7
         },
         {
           id: 2,
           name: "Foxikle",
           position: "Network Developer",
-          avatar: "https://cdn.discordapp.com/avatars/384445411307421717/4f0cdec7e450ce9515f6c803d77a1164?size=1024"
+          avatar: 1
         },
         {
           id: 3,
@@ -70,19 +72,19 @@ export default {
           id: 4,
           name: "MomadXD",
           position: "Junior Developer",
-          avatar: "https://cdn.discordapp.com/avatars/352425244985917442/a688e4b2870f67bce810665006b96a4e.png?size=2048"
+          avatar: 9
         },
         {
           id: 5,
           name: "Yello",
           position: "Mod",
-          avatar: "https://cdn.discordapp.com/avatars/916642284810936380/8a0974eda5abd6a64fdb9fc8e360a6fc?size=1024"
+          avatar: 8
         },
         {
           id: 6,
           name: "LZ",
           position: "Helper",
-          avatar: "https://cdn.discordapp.com/avatars/828916510646468630/09b902b34376ee668442e1e7f15babe1?size=1024"
+          avatar: null
         },
       ],
       faq: [
@@ -103,6 +105,29 @@ export default {
         }
       ]
     }
-  }
+  },
+  mounted() {
+    for (let index in this.staff) {
+      let user = this.staff[index];
+
+      if(user.avatar == null) {
+        this.staff[index].avatar_url = favicon;
+      }
+      axios.get('users/' + user.avatar)
+          .then(value => {
+            console.log("Boop!")
+            let avatar = value.data.data.attributes.avatar_url;
+            console.log(avatar);
+            if(avatar != null) {
+              this.staff[index].avatar_url = avatar;
+            } else {
+              this.staff[index].avatar_url = favicon;
+            }
+          })
+          .catch(reason => {
+            this.staff[index].avatar_url = favicon;
+          })
+    }
+  },
 }
 </script>

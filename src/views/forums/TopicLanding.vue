@@ -77,7 +77,7 @@
         <div v-for="thread in filteredThreads" :key="thread.id" class="p-4 bg-gray-800 mb-4 rounded"
              @click="this.$router.push('/forums/threads/' + thread.id)">
           <h3 class="text-lg font-bold">{{ thread.attributes.title }}</h3>
-          <p class="text-sm text-gray-400">{{ thread.attributes.user.name }} -
+          <p class="text-sm text-gray-400">{{ thread.attributes.user.data.attributes.name }} -
             {{ formatDateTime(thread.attributes.updated_at) }}</p>
           <p class="mt-2">{{ thread.content }}</p>
         </div>
