@@ -64,12 +64,18 @@ export default {
         },
         {
           id: 3,
+          name: "PrinceLegacy",
+          position: "Manager",
+          avatar: "https://cdn.discordapp.com/avatars/1039887622216089682/a9c0c1146398f2dd4d60e975ce3ca2cf?size=1024"
+        },
+        {
+          id: 4,
           name: "MomadXD",
           position: "Junior Developer",
           avatar: 9
         },
         {
-          id: 4,
+          id: 5,
           name: "Yello",
           position: "Mod",
           avatar: 8
@@ -79,12 +85,6 @@ export default {
           name: "LZ",
           position: "Helper",
           avatar: null
-        },
-        {
-          id: 5,
-          name: "PrinceLegacy",
-          position: "Manager",
-          avatar: 6
         },
       ],
       faq: [
