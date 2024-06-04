@@ -15,7 +15,7 @@
              class="border border-black hover:border-zinc-50 flex-row flex justify-center m-6 min-w-[300px] max-w-[200px] rounded p-3 overflow-ellipsis flex-grow transform transition duration-100">
           <div>
             <img :alt="item.name + '\'s avatar'" :src="item.avatar_url"
-                 class="max-h-16 min-h-16 min-w-16 max-w-16 rounded-3xl m-1 p-1">
+                 class="max-h-16 min-h-16 min-w-16 max-w-16 rounded-3xl m-1 p-1 aspect-square object-cover">
           </div>
           <div class="flex flex-col justify-center items-center">
             <h1 class="px-2">{{ item.name }}</h1>
@@ -66,7 +66,7 @@ export default {
           id: 3,
           name: "PrinceLegacy",
           position: "Manager",
-          avatar: "https://cdn.discordapp.com/avatars/1039887622216089682/a9c0c1146398f2dd4d60e975ce3ca2cf?size=1024"
+          avatar: 6
         },
         {
           id: 4,
