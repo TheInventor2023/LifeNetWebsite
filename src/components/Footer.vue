@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-black h-[6vh]"></div>
-  <div class="fixed flex flex-row bottom-0 p-5 justify-between w-full bg-black bg-opacity-50 backdrop-blur-sm">
+  <div class="bg-black h-[6vh]" :style="{'height': footer_height}"></div>
+  <footer class="fixed flex flex-row bottom-0 p-5 justify-between w-full bg-black bg-opacity-50 backdrop-blur-sm" id="footer">
 
     <div id="text" class="flex">
       <h1 class="text-white">
@@ -23,8 +23,17 @@
       </div>
 
     </div>
-  </div>
+  </footer>
 </template>
 <script>
-
+export default {
+  data() {
+    return {
+      footer_height: '1000px'
+    }
+  },
+  mounted() {
+    this.footer_height = document.getElementById('footer').clientHeight + 'px'
+  }
+}
 </script>

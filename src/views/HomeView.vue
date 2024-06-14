@@ -115,9 +115,7 @@ export default {
       }
       axios.get('users/' + user.avatar)
           .then(value => {
-            console.log("Boop!")
             let avatar = value.data.data.attributes.avatar_url;
-            console.log(avatar);
             if(avatar != null) {
               this.staff[index].avatar_url = avatar;
             } else {
