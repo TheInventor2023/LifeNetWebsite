@@ -1,10 +1,10 @@
 <template>
-  <div class="bg-black h-[6vh]"></div>
+  <div class="bg-black h-[6vh] min-h-12"></div>
   <div
-      class="max-sm:hidden h-[6vh] fixed backdrop-blur-sm bg-black bg-opacity-50 flex-row flex top-0 w-full justify-between z-50">
+      class="max-sm:hidden h-[6vh] min-h-12 fixed backdrop-blur-sm bg-black bg-opacity-50 flex-row flex top-0 w-full justify-between z-50">
     <div class="flex">
       <div class="m-1 mx-6">
-        <img alt="Cytonic's Logo" class="h-[5.5vh] mb-2" src="@/assets/icon.svg">
+        <img alt="Cytonic's Logo" class="h-[5.5vh] min-h-10 mb-2" src="@/assets/icon.svg">
       </div>
 
       <div class="mx-6 self-center text-gray-300 hover:text-white transition">

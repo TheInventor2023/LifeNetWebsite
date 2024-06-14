@@ -482,7 +482,7 @@
               <span v-if="comment.attributes.deleted" class="text-red-500 text-center text-xs">
 <!--                This is probably cheating, and there should be a better way to do this. -->
                 <!--                {{getUser(comment)}}-->
-                <p>Deleted by: {{ comment.attributes.deleted_by_user }}</p>
+                <p>Deleted by: {{comment.attributes.deleted_by.data.attributes.name}}</p>
                 <p>Deleted: {{ formatDateTime(comment.attributes.deleted_at) }}</p>
               </span>
             </span>
