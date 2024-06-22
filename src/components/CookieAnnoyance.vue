@@ -28,7 +28,7 @@ export default {
     },
     setCookie() {
       // 10 years should be sufficient
-      const expirationDate = new Date(Date.now() + (10 * 365 * 24 * 60 * 60));
+      const expirationDate = new Date(Date.now() + (10 * 365.25 * 24 * 60 * 60 * 1000));
       document.cookie = `cytonic_accepted_cookies=true; expires=${expirationDate.toUTCString()}; path=/; SameSite=Strict; Secure`;
     },
   },
