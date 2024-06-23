@@ -158,7 +158,8 @@
                       <option value="illegal_activities">Promoting or engaging in illegal activity</option>
                       <option value="personal_info">Sensitive personal information</option>
                       <option value="malware">Hacks, cheats, phishing or malicious links</option>
-                      <option value="too_young">The poster, {{ thread.attributes.user.data.attributes.name }}, is under the age
+                      <option value="too_young">The poster, {{ thread.attributes.user.data.attributes.name }}, is under
+                        the age
                         of 13
                       </option>
                       <option value="other">Other</option>
@@ -222,7 +223,8 @@
                       <option value="illegal_activities">Promoting or engaging in illegal activity</option>
                       <option value="personal_info">Sensitive personal information</option>
                       <option value="malware">Hacks, cheats, phishing or malicious links</option>
-                      <option value="too_young">The poster, {{ targeted_comment.attributes.user.data.attributes.name }}, is under the
+                      <option value="too_young">The poster, {{ targeted_comment.attributes.user.data.attributes.name }},
+                        is under the
                         age
                         of 13
                       </option>
@@ -273,10 +275,12 @@
                 </svg>
               </button>
               <h1 class="font-title text-xl mb-4 text-white">Edit Comment</h1>
-              <textarea v-model="modals.editText" class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2 resize-y" required
-                        @input="resizeTextarea" ref="dynamicTextarea"/>
+              <textarea ref="dynamicTextarea"
+                        v-model="modals.editText"
+                        class="bg-slate-700 border border-gray-700 rounded-lg w-full px-3 py-2 resize-y"
+                        required @input="resizeTextarea"/>
               <p class="text-xs italic text-gray-400 mt-1">This editor supports markdown!</p>
-              {{resizeTextarea() }}
+              {{ resizeTextarea() }}
               <div class="flex justify-end mt-4">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mr-2"
                         @click="editComment(targeted_comment); modals.editText = ''; modals.editComment = false">Save
@@ -303,8 +307,8 @@
                 </svg>
               </button>
               <h1 class="font-title text-xl mb-4 text-white">Edit Thread</h1>
-              <textarea v-model="modals.thread.threadText" class="w-full p-2 bg-gray-700 rounded-lg text-white"
-                        @input="resizeTextarea" ref="dynamicTextarea"/>
+              <textarea ref="dynamicTextarea" v-model="modals.thread.threadText"
+                        class="w-full p-2 bg-gray-700 rounded-lg text-white" @input="resizeTextarea"/>
               <p class="text-xs italic text-gray-400">This editor supports markdown!</p>
               <div class="flex justify-end mt-4">
                 <button class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg mr-2"
@@ -434,9 +438,11 @@
                                                                              class="italic text-xs">(edited)</span></h2>
         </header>
 
-        <section class="p-2">
-          <div v-html="this.md(sanitize(thread.attributes.body))"/>
+        <section class="p-2 prose md-container">
+          <vue-markdown :source="sanitize(thread.attributes.body)" :plugins="plugins"/>
         </section>
+
+        <div class="m-2 bg-slate-700 rounded-r-xl" v-html="testingMd"/>
 
         <section class="bg-gray-700 px-4 py-2">
           <div class="flex items-center space-x-3">
@@ -482,7 +488,7 @@
               <span v-if="comment.attributes.deleted" class="text-red-500 text-center text-xs">
 <!--                This is probably cheating, and there should be a better way to do this. -->
                 <!--                {{getUser(comment)}}-->
-                <p>Deleted by: {{comment.attributes.deleted_by.data.attributes.name}}</p>
+                <p>Deleted by: {{ comment.attributes.deleted_by.data.attributes.name }}</p>
                 <p>Deleted: {{ formatDateTime(comment.attributes.deleted_at) }}</p>
               </span>
             </span>
@@ -521,8 +527,8 @@
                 formatDateTime(comment.attributes.updated_at)
               }}</span>
 
-            <p class="m-3">
-              <span v-html="this.md(sanitize(comment.attributes.body))"/>
+            <p class="m-3 md-container prose">
+              <vue-markdown :source="sanitize(comment.attributes.body)" :plugins="plugins"/>
             </p>
           </div>
         </div>
@@ -574,11 +580,30 @@ import helper from '@/assets/borders/helper.svg'
 import * as Utils from "@/Utils.js";
 import {adminAccess} from "@/Utils.js";
 import {useToast} from "vue-toastification";
+import VueMarkdown from "vue-markdown-render";
 
+// markdownit plugins
+import highlightjs from "markdown-it-highlightjs";
+import MarkdownItAnchor from "markdown-it-anchor";
+import { full as emoji } from 'markdown-it-emoji'
+import MarkdownItGitHubAlerts from 'markdown-it-github-alerts'
+
+// css
+import 'markdown-it-github-alerts/styles/github-colors-dark-media.css'
+import 'markdown-it-github-alerts/styles/github-base.css'
+
+const mdPlugins = [
+  highlightjs,
+  MarkdownItAnchor,
+  emoji,
+  MarkdownItGitHubAlerts,
+]
 
 export default {
   name: "ThreadComponent",
-  components: {},
+  components: {
+    VueMarkdown,
+  },
   data() {
     return {
       loading: true,
@@ -611,6 +636,9 @@ export default {
     };
   },
   computed: {
+    plugins() {
+      return mdPlugins;
+    },
     Utils() {
       return Utils
     },
@@ -681,9 +709,10 @@ export default {
     resizeTextarea() {
       if (this.modals.thread.editThread || this.modals.editText) {
         const textarea = this.$refs.dynamicTextarea;
+        if(!textarea) return;
         textarea.style.height = 'auto'; // Reset height to calculate the new height
         const newHeight = Math.min(textarea.scrollHeight, window.innerHeight * 0.4);
-        textarea.style.height = `${newHeight}px`;
+          textarea.style.height = `${newHeight}px`;
       }
     },
     sanitize(html) {
@@ -697,7 +726,7 @@ export default {
       return adminAccess
     },
     addComment() {
-      if(this.body === '') {
+      if (this.body === '') {
         useToast().error("You cannot submit an empty comment!", {timeout: 3000});
         return;
       }
@@ -933,3 +962,69 @@ export default {
   }
 };
 </script>
+
+<style lang="css">
+ .md-container {
+
+   .markdown-alert {
+      background-color: rgba(51, 65, 85);
+      border-radius: 6px;
+      color: white;
+      padding: 10px;
+      margin-bottom: 10px;
+
+   }
+
+   blockquote {
+     background-color: rgba(51, 65, 85);
+     border-radius: 6px;
+     p {
+       color: white
+     }
+   }
+   pre {
+     margin: 0;
+     padding: 0;
+   }
+   code {
+     margin: 0;
+     padding: 10px;
+     background-color: rgba(51, 65, 85);
+     border-radius: 6px;
+     color: white;
+   }
+   ul {
+     li {
+       color: white;
+     }
+   }
+   h1, h2, h3, h4 {
+     color: white;
+   }
+   h5 {
+     color: #7777;
+     font-style: italic;
+   }
+   p {
+     color: white;
+     overflow-wrap: break-word;
+   }
+   em {
+     color: white;
+   }
+   strong {
+     color: white;
+   }
+   a {
+     color: #0ea5fa;
+   }
+
+   table {
+     color: white;
+   }
+
+   th {
+     color: white;
+   }
+ }
+</style>
