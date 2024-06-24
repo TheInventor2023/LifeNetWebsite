@@ -71,25 +71,32 @@ const router = createRouter({
         {
             path: '/legal/tos',
             name: 'termsofservice',
+            alias: ['/tos', '/termsofservice'],
             component: () => import( '@/views/legal/TermsOfService.vue'),
         },
         {
             path: '/legal/privacy',
+            alias: ['/legal/privacy-policy', '/privacy', '/privacy-policy'],
             name: 'privacypolicy1',
-            component: () => import( '@/views/legal/PrivacyPolicy.vue'),
-        },
-        {
-            path: '/legal/privacy-policy',
-            name: 'privacypolicy2',
             component: () => import( '@/views/legal/PrivacyPolicy.vue'),
         },
 
         // admin
         {
             path: '/admin/home',
+            alias: ['/admin'],
             name: 'adminhome',
             component: () => import( '@/views/admin/AdminHome.vue'),
         },
+
+        // appeals
+        {
+            path: '/appeals',
+            name: 'appeals',
+            redirect: '/forums/topics/PUNISHMENT_APPEALS',
+            component: () => import( '@/views/forums/TopicLanding.vue'),
+        },
+
         // catchall
         {
             path: '/:pathMatch(.*)*',
