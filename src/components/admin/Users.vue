@@ -76,6 +76,7 @@
             <p>ID: {{ modalUser.id }}</p>
             <p>Email: {{ modalUser.email }}</p>
             <p>Role: {{ modalUser.role }}</p>
+            <p>Confirmed: {{ modalUser.confirmed_at === null }}</p>
             <p v-if="modalUser.linked">
               MC: {{ modalUser.uuid }}
               <br>
