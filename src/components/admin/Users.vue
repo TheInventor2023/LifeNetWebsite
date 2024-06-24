@@ -4,7 +4,7 @@
       <div class="flex">
         <h1 class="text-3xl font-title max-sm:ml-10">Website User List</h1>
         <button class="mx-4" @click="refreshData">
-          <img src="@/assets/refresh.svg" alt="Refresh">
+          <img alt="Refresh" src="@/assets/refresh.svg">
         </button>
       </div>
       <div class="flex-row flex">
@@ -90,27 +90,35 @@
           </div>
 
           <!-- Action buttons -->
-          <div v-if="modal_button === null" class="mt-4 flex justify-between">
-            <button class="bg-green-500 text-white px-4 py-2 rounded mr-2" @click="modal_button = 'change_roles'">Change
-              Role
+          <div v-if="modal_button === null" class="mt-4 flex flex-wrap">
+            <button class="bg-green-600 text-white px-4 py-2 rounded m-2" @click="modal_button = 'change_roles'">
+              Change Role
             </button>
-            <button v-if="modalUser.terminated" class="bg-emerald-500 text-white px-4 py-2 rounded mr-2"
+            <button v-if="modalUser.avatar_url" class="bg-red-600 text-white px-4 py-2 rounded m-2"
+                    @click="modal_button = 'remove_avatar'">
+              Delete Avatar
+            </button>
+            <button v-if="modalUser.confirmed_at === null" class="bg-blue-600 text-white px-4 py-2 rounded m-2"
+                    @click="sendConfirmEmail(modalUser)">
+              Resend Confirmation
+            </button>
+            <button v-if="modalUser.terminated" class="bg-emerald-500 text-white px-4 py-2 rounded m-2"
                     @click="restoreUser(modalUser)">Restore Account
             </button>
-            <button v-else class="bg-red-600 text-white px-4 py-2 rounded mr-2"
+            <button v-else class="bg-red-600 text-white px-4 py-2 rounded m-2"
                     @click="modal_button = 'terminate_user'">Terminate Account
             </button>
-            <button v-if="!modalUser.muted" class="bg-yellow-500-removeme bg-blue-500 text-white px-4 py-2 rounded mr-2"
+            <button v-if="!modalUser.muted" class="bg-yellow-500-removeme bg-blue-500 text-white px-4 py-2 rounded m-2"
                     @click="muteUser(modalUser.id)">Mute User
             </button>
-            <button v-if="modalUser.muted" class="bg-yellow-500-removeme bg-indigo-500 text-white px-4 py-2 rounded mr-2"
+            <button v-if="modalUser.muted" class="bg-yellow-500-removeme bg-indigo-500 text-white px-4 py-2 rounded m-2"
                     @click="unmuteUser(modalUser.id)">Unmute User
             </button>
             <!-- Add more buttons for other actions as needed -->
           </div>
           <div v-if="modal_button === 'change_roles'" class="mt-8 relative">
             <button class="absolute top-[-2.5vh] left-[-2vw]" @click="modal_button = null">
-              <img src="@/assets/back.svg" alt="<-">
+              <img alt="<-" src="@/assets/back.svg">
             </button>
             <div class="flex justify-between">
               <button class="bg-[#3498db] text-white px-4 py-2 rounded mr-2" @click="changeRole(modalUser, 'user')">
@@ -140,9 +148,23 @@
               </label>
               <textarea id="reason"
                         v-model="termination_reason"
-                        class="min-h-fit shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 mb-4" placeholder="Reason" type="text"/>
+                        class="min-h-fit shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline bg-gray-800 mb-4"
+                        placeholder="Reason" type="text"/>
               <button class="bg-red-500 text-white px-4 py-2 rounded self-center" @click="terminateUser(modalUser)">
                 Terminate {{ modalUser.name }}
+              </button>
+            </div>
+          </div>
+          <div v-if="modal_button === 'remove_avatar'" class="mt-8 relative">
+            <button class="absolute top-[-2.5vh] left-[-2vw]" @click="modal_button = null">
+              <svg height="22" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" fill="#fff"/>
+              </svg>
+            </button>
+            <div class="rounded-2xl bg-gray-600 p-4 justify-center flex">
+              <button class="bg-red-500 text-white px-4 py-2 rounded self-center" @click="deleteAvatar(modalUser)">
+                Remove {{ modalUser.name }}'s Avatar
               </button>
             </div>
           </div>
@@ -158,13 +180,16 @@
             <h1 class="text-center ">ID: {{ user.id }} </h1>
           </div>
           <img v-if="user.avatar_url !== null" :alt="user.name + '\'s avatar'"
-               :src="user.avatar_url" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
+               :src="user.avatar_url"
+               class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2 rounded-2xl aspect-square object-cover">
           <img v-else alt="Default Avatar" class="max-h-12 min-h-12 min-w-12 max-w-12 mr-2" src="/favicon-pride.svg">
           <div class="ml-2 flex-grow">
             <h1 v-if="user.terminated" class="font-semibold my-0 font-title"><span class="line-through">{{
                 user.name
               }} </span><span class="no-underline mx-2 text-red-600">TERMINATED</span></h1>
             <h1 v-else class="font-semibold my-0 font-title"> {{ user.name }}</h1>
+            <h1 v-if="user.confirmed_at === null" class="font-semibold my-0 font-title text-gray-500 italic">
+              (Unconfirmed)</h1>
 
             <p class="italic text-gray-400"> {{ user.role }}</p>
           </div>
@@ -176,7 +201,7 @@
 
       </div>
       <div v-else class="flex justify-center mt-10">
-        <img src="@/assets/loading.svg" alt="Loading ...">
+        <img alt="Loading ..." src="@/assets/loading.svg">
       </div>
     </div>
   </div>
@@ -187,8 +212,8 @@
 import MustLogIn from "@/components/MustLogIn.vue";
 import axios from "@/api.js";
 import {useToast} from "vue-toastification";
-import {adminAccess} from "@/Utils.js";
 import * as Utils from "@/Utils.js";
+import {adminAccess} from "@/Utils.js";
 
 const roleOrder = {
   owner: 1,
@@ -544,6 +569,80 @@ export default {
             });
           })
     },
+    deleteAvatar(user) {
+      axios.delete(`/admin/avatars/${user.id}`)
+          .then((response) => {
+            useToast().success(`Successfully removed the avatar of the user ${user.name}.`, {
+              position: 'top-right',
+              timeout: 2000,
+              closeOnClick: false,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: 'button',
+              icon: false,
+              rtl: false,
+            });
+            this.showModal = false;
+            this.modal_button = null;
+          })
+          .catch((error) => {
+            this.showModal = false
+            this.modal_button = null;
+            console.log(user)
+            if (error.response.data.message.includes("ERR 1009")) {
+              useToast().error(`This user does not have an avatar!`, {
+                position: 'top-right',
+                timeout: 2500,
+                closeOnClick: false,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+              return;
+            }
+            if (error.response.data.message === 'Not authorized!') {
+              useToast().error(`You are not authorized to remove user avatars.`, {
+                position: 'top-right',
+                timeout: 2500,
+                closeOnClick: false,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: true,
+                closeButton: 'button',
+                icon: false,
+                rtl: false,
+              });
+              return;
+            }
+            useToast().error(`An error occoured whilst attempting to terminate ${user.name}.`, {
+              position: 'top-right',
+              timeout: 1000,
+              closeOnClick: false,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: true,
+              closeButton: 'button',
+              icon: false,
+              rtl: false,
+            });
+          })
+    },
     restoreUser(user) {
       const data = {
         target: {
@@ -639,6 +738,43 @@ export default {
           .catch(() => {
             useToast().error("An error occurred whilst muting user!")
           });
+    },
+    sendConfirmEmail(user) {
+      axios.post("confirmation", {id: user.id}).then(value => {
+        if (value.data.message === 'Confirmation email has been resent.') {
+          useToast().success('Successfully re-sent confirmation email!', {
+            position: 'top-right',
+            timeout: 5000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: false,
+            closeButton: 'button',
+            icon: false,
+            rtl: false,
+          });
+        }
+      })
+          .catch(error => {
+            useToast().error('An error occoured whilst attempting to resend the email.', {
+              position: 'top-right',
+              timeout: 5000,
+              closeOnClick: true,
+              pauseOnFocusLoss: true,
+              pauseOnHover: true,
+              draggable: true,
+              draggablePercent: 0.6,
+              showCloseButtonOnHover: false,
+              hideProgressBar: false,
+              closeButton: 'button',
+              icon: false,
+              rtl: false,
+            });
+          });
+      this.showModal = false;
     },
 
 
