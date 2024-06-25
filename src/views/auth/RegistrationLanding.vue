@@ -40,7 +40,7 @@ export default {
           // POST /resource/confirmation
         axios.post("confirmation", {id: this.id}).then(value => {
           if (value.data.message === 'Confirmation email has been resent.') {
-          useToast().error('Successfully re-sent confirmation email!', {
+          useToast().success('Successfully re-sent confirmation email!', {
             position: 'top-right',
             timeout: 5000,
             closeOnClick: true,
@@ -77,6 +77,9 @@ export default {
   mounted() {
     if (this.$route.query.id) {
       this.id = this.$route.query.id;
+    }
+    if (this.$route.query.email) {
+      this.id = this.$route.query.email;
     }
   }
 }

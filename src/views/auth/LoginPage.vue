@@ -152,7 +152,7 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if (error.response.data === 'You have to confirm your email address before continuing.') {
+            } else if (error.response.data.error === 'You have to confirm your email address before continuing.') {
               useToast().error('You must verify your email before logging in!', {
                 position: 'top-right',
                 timeout: 10000,
@@ -167,8 +167,9 @@ export default {
                 icon: false,
                 rtl: false,
               });
-            } else if (error.response.data === 'Invalid Email or password.') {
-              useToast().error('Invalid password or email!', {
+              this.$router.push(`/registered?email=${this.email}`);
+            } else if (error.response.data.error === 'Invalid Email or password.') {
+              useToast().error('Invalid email or password!', {
                 position: 'top-right',
                 timeout: 10000,
                 closeOnClick: true,
